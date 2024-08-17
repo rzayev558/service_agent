@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
   FormBuilder,
@@ -9,7 +8,6 @@ import {
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
-import { ButtonComponent } from '../../components/button/button.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -18,7 +16,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { JobsService } from '../../services/jobs.service';
-import { Job } from '../jobs-table/jobs-table.component';
+import { Job } from '../../interfaces';
 export const Methods = {
   POST: 'POST',
   GET: 'GET',
@@ -31,7 +29,6 @@ export const ExecutionTypes = {
   selector: 'app-request-page',
   standalone: true,
   imports: [
-    ButtonComponent,
     CommonModule,
     ReactiveFormsModule,
     RadioButtonModule,
@@ -92,7 +89,6 @@ export class RequestPageComponent implements OnInit {
   onSubmit() {
     console.log(this.requestForm.value.date);
     const job: Job = {
-      id: uuidv4(),
       name: this.requestForm.value.name,
       submissionDate: new Date().toString(),
       executionDate:
@@ -102,6 +98,7 @@ export class RequestPageComponent implements OnInit {
       status: 'pending',
       header: this.requestForm.value.headers,
       body: this.requestForm.value.body,
+      favorite: false,
       method: this.requestForm.value.method.value,
       api: this.requestForm.value.api,
     };

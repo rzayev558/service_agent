@@ -1,7 +1,6 @@
-<div class="bg-gray-100">
-  <!-- Add any other content you want on the right half here -->
-  <h2 class="bg-gray-200">Service Agent by SAP</h2>
-</div>
-<div>
-  <app-request-page></app-request-page>
-</div>
+<router-outlet>
+  <div class="flex flex-row w-full justify-between items-center">
+    <h2 class="bg-gray-200">Service Agent by SAP</h2>
+    <p-button [label]="buttonLabel" (click)="navigateToPage()"></p-button>
+  </div>
+</router-outlet>

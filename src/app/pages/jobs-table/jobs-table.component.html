@@ -1,0 +1,56 @@
+<!-- jobs-table.component.html -->
+<div class="p-4">
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-xl font-bold">List of all jobs</h2>
+    </div>
+    <p-button
+      (click)="toggleShowFavorites()"
+      size="small"
+      severity="info"
+      [label]="showFavorites ? 'Show Favorites' : 'Show All'"
+    >
+    </p-button>
+  </div>
+  <p-table
+    [value]="jobs"
+    styleClass="p-datatable-gridlines"
+    paginator="true"
+    [rows]="10"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th class="text-left">ID</th>
+        <th class="text-left">Job Name</th>
+        <th class="text-left">Submitted</th>
+        <th class="text-left">Execution</th>
+        <th class="text-left">Status</th>
+        <th class="text-left">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-job>
+      <tr>
+        <td>
+          <span
+            class="pi pi-star"
+            [class]="job.favorite ? 'text-yellow-500' : 'text-gray-500'"
+            (click)="onStarClick(job)"
+          >
+          </span>
+        </td>
+        <td>{{ job.id }}</td>
+        <td>{{ job.name }}</td>
+        <td>{{ job.submissionDate }}</td>
+        <td>{{ job.executionDate }}</td>
+        <td>
+          <span>{{ job.status }}</span>
+        </td>
+        <td>
+          <p-button label="Details" size="small" severity="secondary">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

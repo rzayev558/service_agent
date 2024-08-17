@@ -1,4 +1,8 @@
-import { getJobs, postJob } from "./controllers/job/job.controller.js";
+import {
+  getJobs,
+  postJob,
+  addJobToFavourites,
+} from "./controllers/job/job.controller.js";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -12,7 +16,7 @@ const port = 3000;
 const mongoURI = "mongodb://localhost:27017/requests_db";
 router.get("/api/jobs", getJobs);
 router.post("/api/jobs", postJob);
-
+router.patch("/api/jobs/:id", addJobToFavourites);
 app.use(cors());
 app.use(express.json());
 app.use(router);

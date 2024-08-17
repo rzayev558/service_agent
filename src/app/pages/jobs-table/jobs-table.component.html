@@ -39,7 +39,7 @@
           >
           </span>
         </td>
-        <td>{{ job.id }}</td>
+        <td>{{ job._id }}</td>
         <td>{{ job.name }}</td>
         <td>{{ job.submissionDate }}</td>
         <td>{{ job.executionDate }}</td>
@@ -47,10 +47,20 @@
           <span>{{ job.status }}</span>
         </td>
         <td>
-          <p-button label="Details" size="small" severity="secondary">
+          <p-button
+            label="Details"
+            size="small"
+            (click)="showDetails(job); op.toggle($event)"
+            severity="secondary"
+          >
           </p-button>
         </td>
       </tr>
     </ng-template>
+    <p-overlayPanel #op position="left">
+      <p>name: {{ chosenJob?.name }}</p>
+      <p>status: {{ chosenJob?.status }}</p>
+      <p>body: {{ chosenJob?.body }}</p>
+    </p-overlayPanel>
   </p-table>
 </div>

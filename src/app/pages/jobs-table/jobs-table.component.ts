@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { JobsService } from '../../services/jobs.service';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { ButtonModule } from 'primeng/button';
 import { Job } from '../../interfaces';
@@ -9,13 +10,15 @@ import { Job } from '../../interfaces';
 @Component({
   selector: 'app-jobs-table',
   standalone: true,
-  imports: [TableModule, ButtonModule],
+  imports: [TableModule, ButtonModule, OverlayPanelModule],
   templateUrl: './jobs-table.component.html',
   styleUrl: './jobs-table.component.scss',
 })
 export class JobsTableComponent {
   jobs: Job[] = [];
   showFavorites = false;
+  infoBoxVisible = false;
+  chosenJob: Job | null = null;
   constructor(private jobsService: JobsService) {
     this.jobsService.getJobs().subscribe((jobs) => {
       this.jobs = jobs;
@@ -45,5 +48,10 @@ export class JobsTableComponent {
       this.jobs = this.jobs.filter((job) => job.favorite);
       this.showFavorites = true;
     }
+  }
+
+  showDetails(job: Job) {
+    this.infoBoxVisible = true;
+    this.chosenJob = job;
   }
 }

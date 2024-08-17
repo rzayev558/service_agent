@@ -78,17 +78,8 @@
         class="flex flex-row gap-3 mt-2"
       >
         <p-floatLabel>
-          <p-calendar formControlName="date" dateFormat="yy-mm-dd"></p-calendar>
+          <p-calendar formControlName="date" [showTime]="true"></p-calendar>
           <label for="date">Date</label>
-        </p-floatLabel>
-
-        <p-floatLabel>
-          <p-calendar
-            formControlName="time"
-            timeOnly="true"
-            hourFormat="24"
-          ></p-calendar>
-          <label for="time">Time</label>
         </p-floatLabel>
       </div>
 

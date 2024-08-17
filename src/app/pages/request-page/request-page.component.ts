@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   FormBuilder,
   FormGroup,
@@ -16,9 +18,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { JobsService } from '../../services/jobs.service';
+import { Job } from '../jobs-table/jobs-table.component';
 export const Methods = {
   POST: 'POST',
   GET: 'GET',
+};
+export const ExecutionTypes = {
+  NOW: 'now',
+  SCHEDULED: 'scheduled',
 };
 @Component({
   selector: 'app-request-page',
@@ -51,10 +58,8 @@ export class RequestPageComponent implements OnInit {
       api: new FormControl(''),
       headers: this.fb.array([this.createHeader()]),
       body: new FormControl(''),
-      execution: new FormControl('Now'),
-      executionType: new FormControl('now'), // Updated to match the radio button form control name
-      date: new FormControl(''),
-      time: new FormControl(''),
+      executionType: new FormControl(ExecutionTypes.NOW),
+      date: new FormControl<string>(''),
     });
   }
 
@@ -85,6 +90,23 @@ export class RequestPageComponent implements OnInit {
   }
 
   onSubmit() {
-    this.jobsService.submitRequest(this.requestForm.value);
+    console.log(this.requestForm.value.date);
+    const job: Job = {
+      id: uuidv4(),
+      name: this.requestForm.value.name,
+      submissionDate: new Date().toString(),
+      executionDate:
+        this.requestForm.value.executionType === ExecutionTypes.NOW
+          ? new Date().toString()
+          : new Date(this.requestForm.value.date).toString(),
+      status: 'pending',
+      header: this.requestForm.value.headers,
+      body: this.requestForm.value.body,
+      method: this.requestForm.value.method.value,
+      api: this.requestForm.value.api,
+    };
+    this.jobsService.submitRequest(job).subscribe((res) => {
+      console.log('res', res);
+    });
   }
 }

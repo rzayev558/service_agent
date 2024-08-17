@@ -1,1 +1,110 @@
-<app-button [label]="'hello'" [disabled]="false"></app-button>
+<form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-col gap-6 w-2/3">
+      <p-floatLabel>
+        <input pInputText formControlName="name" class="w-1/3" />
+        <label for="name">Name</label>
+      </p-floatLabel>
+
+      <div class="flex flex-row gap-3 mt-3">
+        <p-floatLabel>
+          <p-dropdown
+            formControlName="method"
+            [options]="methods"
+            optionLabel="label"
+          ></p-dropdown>
+          <label for="method">Method</label>
+        </p-floatLabel>
+
+        <p-floatLabel>
+          <input pInputText formControlName="api" />
+          <label for="api">API</label>
+        </p-floatLabel>
+      </div>
+
+      <div>
+        <h3>Headers</h3>
+        <div formArrayName="headers" class="flex flex-col gap-6">
+          <div
+            class="flex flex-row gap-2 items-center"
+            *ngFor="let header of headers.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <p-floatLabel>
+              <input pInputText formControlName="key" />
+              <label for="headerKey">Header Key</label>
+            </p-floatLabel>
+            <p-floatLabel>
+              <input pInputText formControlName="value" />
+              <label for="headerValue">Header Value</label>
+            </p-floatLabel>
+            <p-button
+              *ngIf="headers.length > 1 && i === headers.length - 1"
+              icon="pi pi-trash"
+              severity="danger"
+              (click)="deleteLastHeader()"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        pButton
+        class="w-28"
+        type="button"
+        size="small"
+        label="Add Row"
+        (click)="addHeader()"
+      ></button>
+
+      <div>
+        <h3>Execution</h3>
+        <div class="flex flex-row gap-2">
+          <p-radioButton
+            value="now"
+            formControlName="executionType"
+            label="Now"
+          ></p-radioButton>
+          <p-radioButton
+            value="schedule"
+            formControlName="executionType"
+            label="Schedule"
+          ></p-radioButton>
+        </div>
+      </div>
+
+      <div
+        *ngIf="requestForm.get('executionType')?.value === 'schedule'"
+        class="flex flex-row gap-3 mt-2"
+      >
+        <p-floatLabel>
+          <p-calendar formControlName="date" dateFormat="yy-mm-dd"></p-calendar>
+          <label for="date">Date</label>
+        </p-floatLabel>
+
+        <p-floatLabel>
+          <p-calendar
+            formControlName="time"
+            timeOnly="true"
+            hourFormat="24"
+          ></p-calendar>
+          <label for="time">Time</label>
+        </p-floatLabel>
+      </div>
+
+      <button pButton class="w-40" type="submit" label="Submit"></button>
+    </div>
+
+    <div class="flex-grow flex justify-end">
+      <p-floatLabel class="w-full">
+        <textarea
+          pInputTextarea
+          formControlName="body"
+          class="w-full min-w-48 max-w-[400px] max-h-[400px]"
+          rows="10"
+        ></textarea>
+        <label for="body">Body</label>
+      </p-floatLabel>
+    </div>
+  </div>
+</form>

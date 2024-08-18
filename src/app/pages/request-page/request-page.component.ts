@@ -13,10 +13,12 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ToastModule } from 'primeng/toast';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { JobsService } from '../../services/jobs.service';
 import { Job } from '../../interfaces';
+import { MessageService } from 'primeng/api';
 export const Methods = {
   POST: 'POST',
   GET: 'GET',
@@ -34,10 +36,12 @@ export const ExecutionTypes = {
     RadioButtonModule,
     FloatLabelModule,
     InputTextModule,
+    ToastModule,
     DropdownModule,
     InputTextareaModule,
     CalendarModule,
   ],
+  providers: [MessageService],
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
 })
@@ -48,7 +52,11 @@ export class RequestPageComponent implements OnInit {
     { label: 'GET', value: Methods.GET },
   ];
 
-  constructor(private fb: FormBuilder, private jobsService: JobsService) {
+  constructor(
+    private fb: FormBuilder,
+    private jobsService: JobsService,
+    private messageService: MessageService
+  ) {
     this.requestForm = this.fb.group({
       name: new FormControl(''),
       method: new FormControl(Methods.POST),
@@ -87,23 +95,35 @@ export class RequestPageComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.requestForm.value.date);
-    const job: Job = {
-      name: this.requestForm.value.name,
-      submissionDate: new Date().toString(),
-      executionDate:
-        this.requestForm.value.executionType === ExecutionTypes.NOW
-          ? new Date().toString()
-          : new Date(this.requestForm.value.date).toString(),
-      status: 'pending',
-      header: this.requestForm.value.headers,
-      body: this.requestForm.value.body,
-      favorite: false,
-      method: this.requestForm.value.method.value,
-      api: this.requestForm.value.api,
-    };
-    this.jobsService.submitRequest(job).subscribe((res) => {
-      console.log('res', res);
-    });
+    try {
+      const job: Job = {
+        name: this.requestForm.value.name,
+        submissionDate: new Date().toString(),
+        executionDate:
+          this.requestForm.value.executionType === ExecutionTypes.NOW
+            ? new Date().toString()
+            : new Date(this.requestForm.value.date).toString(),
+        status: 'pending',
+        header: this.requestForm.value.headers,
+        body: this.requestForm.value.body,
+        favorite: false,
+        method: this.requestForm.value.method.value,
+        api: this.requestForm.value.api,
+      };
+      this.jobsService.submitRequest(job).subscribe((res) => {
+        console.log('res', res);
+      });
+      this.requestForm.reset();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Job request submitted successfully',
+      });
+    } catch (error) {
+      console.error(
+        'An error occurred while submitting the job request:',
+        error
+      );
+    }
   }
 }

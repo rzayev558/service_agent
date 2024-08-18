@@ -4,7 +4,6 @@ export const scheduleOrExecuteJob = async (job) => {
   console.log(new Date(job.executionDate));
   console.log(now);
   if (timeUntilExecution <= 0) {
-    // Execute immediately if the executionTime is in the past
     await executeJob(job);
   } else {
     // Schedule the job to be executed in the future

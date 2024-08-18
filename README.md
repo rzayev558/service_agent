@@ -4,24 +4,20 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for frontend dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+Run `node index.js` for backend dev server. It is running on port `http://localhost:3000/`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Make sure your mongoDB instance is connected
 
-## Build
+What it does:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- The user can fill up the request page to send an API request to and API endpooint instantly or on a schedule time
 
-## Running unit tests
+- In the request (when submitted) I calculate the time when the job supposed to be executed. If the request is now the job will be executed instantly and the status of the job will be executed = true. If time until execution is more than > 0 then the job will be added to scheduled then I simply create a timer with a time until execution and console.log the calculate the time until execution
+- In the request (when submitted) I calculate the time when the job supposed to be executed. If the request is now the job will be executed instantly and the status of the job will be executed = true. If time until execution is more than > 0 then the job will be added to scheduled then I simply create a timer with a time until execution and console.log the job is executed when the timer hits 0 (please see scheduleOrExecuteJob in the backend dir.).
+- user can go to the jobs page to view all the jobs and add or remove the job to/from their favorites. Also filter by favorites
+- clicking on details will just show some basic information (it wasn't clear to me what else needed to be shown there).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Demo video:
+https://www.loom.com/share/42f5401ec11040f99f05710b038fee49

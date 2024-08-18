@@ -1,16 +1,12 @@
-import { Component } from '@angular/core';
-import { TableModule } from 'primeng/table';
 import { JobsService } from '../../services/jobs.service';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
-
-import { ButtonModule } from 'primeng/button';
 import { Job } from '../../interfaces';
-//have the ID optional in the frontend as mongoDB will generate it
+import { PrimeNgModule } from '../../primeng.module';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-jobs-table',
   standalone: true,
-  imports: [TableModule, ButtonModule, OverlayPanelModule],
+  imports: [PrimeNgModule],
   templateUrl: './jobs-table.component.html',
   styleUrl: './jobs-table.component.scss',
 })

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   FormBuilder,
@@ -8,17 +8,12 @@ import {
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { CalendarModule } from 'primeng/calendar';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { ToastModule } from 'primeng/toast';
 
-import { DropdownModule } from 'primeng/dropdown';
 import { JobsService } from '../../services/jobs.service';
 import { Job } from '../../interfaces';
+import { PrimeNgModule } from '../../primeng.module';
 import { MessageService } from 'primeng/api';
+
 export const Methods = {
   POST: 'POST',
   GET: 'GET',
@@ -30,22 +25,12 @@ export const ExecutionTypes = {
 @Component({
   selector: 'app-request-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RadioButtonModule,
-    FloatLabelModule,
-    InputTextModule,
-    ToastModule,
-    DropdownModule,
-    InputTextareaModule,
-    CalendarModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, PrimeNgModule],
   providers: [MessageService],
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
 })
-export class RequestPageComponent implements OnInit {
+export class RequestPageComponent {
   requestForm: FormGroup;
   methods: { label: string; value: string }[] = [
     { label: 'POST', value: Methods.POST },
@@ -67,8 +52,6 @@ export class RequestPageComponent implements OnInit {
       date: new FormControl<string>(''),
     });
   }
-
-  ngOnInit() {}
 
   createHeader(): FormGroup {
     return this.fb.group({

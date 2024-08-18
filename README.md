@@ -4,9 +4,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
+Run `npm install` in the main directory (service-agent).
+Run `npm install` in the backend directory
+
 Run `ng serve` for frontend dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `node index.js` for backend dev server. It is running on port `http://localhost:3000/`
+Run `node index.js` for starting backend dev server. It is running on port `http://localhost:3000/`
 
 Make sure your mongoDB instance is connected
 
